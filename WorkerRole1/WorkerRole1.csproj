@@ -76,8 +76,11 @@
     <Compile Include="AllJobsCollector.cs" />
     <Compile Include="IJobCollectable.cs" />
     <Compile Include="JobMasterCollector.cs" />
+    <Compile Include="JobSiteEnum.cs" />
+    <Compile Include="JobSiteFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkerRole.cs" />
+    <Compile Include="WorkerStorageManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

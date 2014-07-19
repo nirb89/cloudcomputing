@@ -14,10 +14,16 @@
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="WebStorageConnectionString" />
+    </ConfigurationSettings>
   </WebRole>
   <WorkerRole name="WorkerRole1" vmsize="Small">
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="WorkerStorageConnectionString" />
+    </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
