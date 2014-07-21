@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "JobSearcher", "JobSearcher\JobSearcher.ccproj", "{61026089-D8F8-4056-B330-91124DCB7FDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRole1", "WebRole1\WebRole1.csproj", "{007B2952-A877-46E9-9BFA-709EF2A8702D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole1", "WorkerRole1\WorkerRole1.csproj", "{933F9990-59F8-400F-85B0-9318BFE16CFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61026089-D8F8-4056-B330-91124DCB7FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61026089-D8F8-4056-B330-91124DCB7FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61026089-D8F8-4056-B330-91124DCB7FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61026089-D8F8-4056-B330-91124DCB7FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{007B2952-A877-46E9-9BFA-709EF2A8702D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{007B2952-A877-46E9-9BFA-709EF2A8702D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{007B2952-A877-46E9-9BFA-709EF2A8702D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{007B2952-A877-46E9-9BFA-709EF2A8702D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{933F9990-59F8-400F-85B0-9318BFE16CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{933F9990-59F8-400F-85B0-9318BFE16CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{933F9990-59F8-400F-85B0-9318BFE16CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{933F9990-59F8-400F-85B0-9318BFE16CFA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
