@@ -35,8 +35,16 @@ namespace WorkerRole1
             HtmlNode rateNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@id='MainContent_JobList_jobList']");
             HtmlNode unwantedNode = htmlDocument.DocumentNode.SelectSingleNode("//tr[@class='pagingRow']");
 
-            string relevantScripts = scriptsNode.InnerHtml;
-            string fullJobsTable = rateNode.InnerHtml.Replace(unwantedNode.InnerHtml, string.Empty);
+            string relevantScripts = (scriptsNode == null) ? 
+                string.Empty : 
+                scriptsNode.InnerHtml;
+
+            string fullJobsTable = (rateNode == null) ?
+                string.Empty :
+                    (unwantedNode == null) ?    
+                        rateNode.InnerHtml : 
+                        rateNode.InnerHtml.Replace(unwantedNode.InnerHtml, string.Empty);
+
             string jobsHtml = relevantScripts + fullJobsTable;
 
             return jobsHtml;

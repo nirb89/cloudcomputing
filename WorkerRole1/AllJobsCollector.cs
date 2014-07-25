@@ -33,7 +33,15 @@ namespace WorkerRole1
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlCode);
             HtmlNode rateNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@id='divOpenBoardContainer']");
-            string jobsHtml = rateNode.InnerHtml.Replace("/images", "http://www.alljobs.co.il/images");
+            
+            if (rateNode == null)
+            {
+                rateNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@id='divOrganicContainer']");
+            }
+
+            string jobsHtml = (rateNode == null) ? 
+                string.Empty : 
+                rateNode.InnerHtml.Replace("/images", "http://www.alljobs.co.il/images");
 
             return jobsHtml;
         }
