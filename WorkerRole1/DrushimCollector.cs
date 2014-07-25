@@ -31,11 +31,13 @@ namespace WorkerRole1
             // Extract the relevant jobs from the HTML
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlCode);
+            HtmlNode scriptsNode = htmlDocument.DocumentNode.SelectSingleNode("//head[@id='Head1']");
             HtmlNode rateNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@id='MainContent_JobList_jobList']");
+            HtmlNode unwantedNode = htmlDocument.DocumentNode.SelectSingleNode("//tr[@class='pagingRow']");
 
-            string relevantScripts =
-@"<link href=""http://www.drushim.co.il/GetResource?css=4f45908dd84a2a019978f849f392ba5e"" rel=""stylesheet"" type=""text/css"" media=""all"" />";
-            string jobsHtml = relevantScripts + rateNode.InnerHtml;
+            string relevantScripts = scriptsNode.InnerHtml;
+            string fullJobsTable = rateNode.InnerHtml.Replace(unwantedNode.InnerHtml, string.Empty);
+            string jobsHtml = relevantScripts + fullJobsTable;
 
             return jobsHtml;
         }

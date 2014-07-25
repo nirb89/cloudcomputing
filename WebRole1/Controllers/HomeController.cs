@@ -12,7 +12,6 @@ namespace WebRole1.Controllers
         public ActionResult Index()
         {
             WebStorageManager.InsertToQueue("computer science");
-            WebStorageManager.InsertToQueue("software developer");
             return View();
         }
 
