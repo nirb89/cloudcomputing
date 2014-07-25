@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllJobsCollector.cs" />
+    <Compile Include="DrushimCollector.cs" />
     <Compile Include="IJobCollectable.cs" />
     <Compile Include="JobMasterCollector.cs" />
     <Compile Include="JobSiteEnum.cs" />
