@@ -9,6 +9,7 @@ namespace WebRole1.Models
     {
         AllJobs = 0,
         JobMaster = 1,
-        Drushim = 2
+        Drushim = 2,
+        Indeed = 3
     };
 }

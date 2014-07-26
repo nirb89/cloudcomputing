@@ -20,13 +20,13 @@ namespace WorkerRole1
         public string CollectJobs(string i_FreeText)
         {
             string urlEncodedFreeText = HttpUtility.UrlPathEncode(i_FreeText);
-            string jobMasterUrl = URL_TEMPLATE.Replace(PAGE_NUM_PLACEHOLDER, "0").Replace(FREE_TEXT_PLACEHOLDER, urlEncodedFreeText);
+            string drushimUrl = URL_TEMPLATE.Replace(PAGE_NUM_PLACEHOLDER, "0").Replace(FREE_TEXT_PLACEHOLDER, urlEncodedFreeText);
 
             // Download the entire HTML of the page
             WebClient webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.Host] = "www.drushim.co.il";
             webClient.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36";
-            string htmlCode = webClient.DownloadString(jobMasterUrl);
+            string htmlCode = webClient.DownloadString(drushimUrl);
 
             // Extract the relevant jobs from the HTML
             HtmlDocument htmlDocument = new HtmlDocument();
