@@ -9,10 +9,26 @@ namespace WebRole1.Controllers
 {
     public class HomeController : Controller
     {
+
+        public readonly string search = "SearchString";
+
         public ActionResult Index()
         {
-            WebStorageManager.InsertToQueue("computer science");
+            string searchString = (string) Session[search];
+            WebStorageManager.DownloadResultBlobs(searchString);
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult SearchJob(IEnumerable<String> ISearchString)
+        {
+            string searchString = ISearchString.First<String>();
+            Session[search] = searchString;
+
+            WebStorageManager.InsertToQueue(searchString);
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult About()
