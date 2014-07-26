@@ -35,7 +35,9 @@ namespace WorkerRole1
                 HtmlDocument htmlDocument = new HtmlDocument();
                 htmlDocument.LoadHtml(htmlCode);
                 HtmlNode rateNode = htmlDocument.DocumentNode.SelectSingleNode("//table[@id='relevantJobsId']");
-                string jobsHtml = rateNode.InnerHtml.Replace("../../images", "http://www.jobmaster.co.il/images");
+                string jobsHtml = (rateNode == null) ?
+                    string.Empty :
+                    rateNode.InnerHtml.Replace("../../images", "http://www.jobmaster.co.il/images");
 
                 return jobsHtml;
             }

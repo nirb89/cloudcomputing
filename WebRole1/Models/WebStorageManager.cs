@@ -51,6 +51,12 @@ namespace WebRole1.Models
 
         public static void InsertToQueue(string freeTextInput)
         {
+            if (isTextInputInResultsTable(freeTextInput))
+            {
+                // If the input has already been calculated in the past, don't add it to the queue
+                return;
+            }
+
             // Create the queue client.
             CloudQueueClient queueClient = StorageAccount.CreateCloudQueueClient();
 
@@ -66,6 +72,20 @@ namespace WebRole1.Models
                 CloudQueueMessage message = new CloudQueueMessage((int) jobSite + ":" + freeTextInput);
                 queue.AddMessage(message);
             }
+        }
+
+        private static bool isTextInputInResultsTable(string freeTextInput)
+        {
+            // Create the blob client. 
+            CloudBlobClient blobClient = StorageAccount.CreateCloudBlobClient();
+
+            // Retrieve reference to a previously created container.
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference(ResultsContainerName);
+
+            // Create the container if it doesn't already exist.
+            blobContainer.CreateIfNotExists();
+
+            return blobContainer.GetBlockBlobReference(freeTextInput + ":0").Exists();
         }
     }
 }

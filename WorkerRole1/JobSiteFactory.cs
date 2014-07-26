@@ -25,8 +25,9 @@ namespace WorkerRole1
                 case JobSiteEnum.JobMaster:
                     jobCollector = new JobMasterCollector();
                     break;
+                case JobSiteEnum.Drushim:
                 default:
-                    jobCollector = null;
+                    jobCollector = new DrushimCollector();
                     break;
             }
 

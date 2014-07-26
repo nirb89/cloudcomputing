@@ -9,6 +9,7 @@ namespace WorkerRole1
     public enum JobSiteEnum
     {
         AllJobs = 0,
-        JobMaster = 1
+        JobMaster = 1,
+        Drushim = 2
     };
 }

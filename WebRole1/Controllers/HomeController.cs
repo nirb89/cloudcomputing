@@ -16,6 +16,7 @@ namespace WebRole1.Controllers
         {
             string searchString = (string) Session[search];
             WebStorageManager.DownloadResultBlobs(searchString);
+
             return View();
         }
 
