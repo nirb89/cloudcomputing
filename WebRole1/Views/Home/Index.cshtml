@@ -1,31 +1,109 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
+}
+
+@section scripts
+{
+    <script src="../../Scripts/spin.js" type="text/javascript"></script>
+    <script>
+        var spinner = null;
+
+        $(document).ready(function ()
+        {
+            if (spinner === null && '@ViewBag.expectingResult' == 'True')
+            {
+                activateSpin();
+            }
+
+            setInterval(function ()
+            {
+                $.getJSON('/home/findnewresults', function (result)
+                {
+                    var newResults = result.Results;
+
+                    if (newResults != "")
+                    {
+                        for (var i = 0; i < newResults.length; i++)
+                        {
+                            // Retreive and parse JSON data from result
+                            var resultData = newResults[i];
+                            var resultTableRow = new Array(resultData[0], resultData[1], resultData[2]);
+                            var rowClass = "success";
+
+                            // Append new result into bottom of the results table
+                            $('#loadingTable').replaceWith(
+                                "<tr class=" + rowClass + ">" +
+                                    "<td>" + resultTableRow[0] + "</td>" +
+                                    "<td>" + resultTableRow[1] + "</td>" +
+                                    "<td>" + resultTableRow[2] + "</td>" +
+                                "</tr>");
+
+                            if (spinner !== null)
+                            {
+                                var target = document.getElementById('spin');
+                                spinner.stop(target);
+                            }
+                        }
+                    }
+                });
+            }, 10000);
+        });
+
+        function activateSpin()
+        {
+            var opts = null;
+
+            if (spinner === null) {
+                opts =
+                {
+                    lines: 9, // The number of lines to draw
+                    length: 4, // The length of each line
+                    width: 3, // The line thickness
+                    radius: 4, // The radius of the inner circle
+                    corners: 1, // Corner roundness (0..1)
+                    rotate: 0, // The rotation offset
+                    direction: 1, // 1: clockwise, -1: counterclockwise
+                    color: '#000', // #rgb or #rrggbb or array of colors
+                    speed: 1, // Rounds per second
+                    trail: 60, // Afterglow percentage
+                    shadow: false, // Whether to render a shadow
+                    hwaccel: false, // Whether to use hardware acceleration
+                    className: 'spinner', // The CSS class to assign to the spinner
+                    zIndex: 2e9, // The z-index (defaults to 2000000000)
+                    top: 'auto', // Top position relative to parent in px
+                    left: 'auto' // Left position relative to parent in px
+                };
+            }
+
+            $('#resultsTable > tbody').append("<tr id='loadingRow' class='active'><td>Loading...</td><td>Loading...</td><td>Loading...</td></tr>");
+
+            spinner = new Spinner(opts).spin();
+            var target = document.getElementById('spin');
+            target.appendChild(spinner.el);
+        }
+
+        $("#fileForm").on("submit", function (e)
+        {
+            if ($("#dataFile").val() == "")
+            {
+                e.preventDefault();
+                alert("Please enter the job you would like to search for");
+                return false;
+            
+            }
+
+            return true;
+        });
+    </script>
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>JobSearcher</h1>
+    <p class="lead">JobSearcher makes searching for jobs easy.  Just type in the kind of job you're looking for and we will search multiple job sites to get the most accurate information.</p>
 </div>
 
+
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    @foreach (string result in ViewBag.results) {
+        @result;
+    }
