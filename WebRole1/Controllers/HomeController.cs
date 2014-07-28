@@ -15,15 +15,15 @@ namespace WebRole1.Controllers
         public ActionResult Index()
         {
             string searchString = (string) Session[search];
-            WebStorageManager.DownloadResultBlobs(searchString);
+            ViewBag.results = WebStorageManager.DownloadResultBlobs(searchString);
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult SearchJob(IEnumerable<String> ISearchString)
+        public ActionResult SearchJob(string searchString)
         {
-            string searchString = ISearchString.First<String>();
+            //string searchString = ISearchString.First<String>();
             Session[search] = searchString;
 
             WebStorageManager.InsertToQueue(searchString);

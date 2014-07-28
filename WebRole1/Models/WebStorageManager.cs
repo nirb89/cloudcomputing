@@ -34,15 +34,19 @@ namespace WebRole1.Models
 
             List<string> resultsList = new List<string>();
 
-            // Loop over items within the container and output the length and URI.
-            foreach (IListBlobItem item in blobContainer.ListBlobs(null, false))
+            if (freeTextInput != null)
             {
-                CloudBlockBlob blob = item as CloudBlockBlob;
 
-                if (blob != null && blob.Name.StartsWith(freeTextInput))
+                // Loop over items within the container and output the length and URI.
+                foreach (IListBlobItem item in blobContainer.ListBlobs(null, false))
                 {
-                    // Extract job data for specific free text input
-                    resultsList.Add(blob.DownloadText());
+                    CloudBlockBlob blob = item as CloudBlockBlob;
+
+                    if (blob != null && blob.Name.StartsWith(freeTextInput))
+                    {
+                        // Extract job data for specific free text input
+                        resultsList.Add(blob.DownloadText());
+                    }
                 }
             }
 

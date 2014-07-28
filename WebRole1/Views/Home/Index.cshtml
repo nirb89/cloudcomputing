@@ -101,9 +101,24 @@
     <h1>JobSearcher</h1>
     <p class="lead">JobSearcher makes searching for jobs easy.  Just type in the kind of job you're looking for and we will search multiple job sites to get the most accurate information.</p>
 </div>
+ @using (Html.BeginForm("SearchJob", "Home", FormMethod.Post))
+    {
 
+            <div style="font-weight: bold" id="searchJob" class="well col-xs-6">
+                Job Type: <input type="text" name="searchString" id="searchString" />
+        <input type="submit" value="Search Job" />
+        </div>
 
-<div class="row">
-    @foreach (string result in ViewBag.results) {
-        @result;
     }
+<br />
+<br />
+<br />
+<br />
+<br />
+
+    @foreach (string result in ViewBag.results) {
+        <div class="row">
+        @Html.Raw(result);
+        </div>
+    }
+    
