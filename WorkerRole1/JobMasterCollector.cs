@@ -18,8 +18,13 @@ namespace WorkerRole1
 
             public string CollectJobs(string i_FreeText)
             {
+                return CollectJobs(i_FreeText, 0);
+            }
+
+            public string CollectJobs(string i_FreeText, int pageNumber)
+            {
                 string urlEncodedFreeText = HttpUtility.UrlPathEncode(i_FreeText);
-                string jobMasterUrl = URL_TEMPLATE.Replace(PAGE_NUM_PLACEHOLDER, "1").Replace(FREE_TEXT_PLACEHOLDER, urlEncodedFreeText);
+                string jobMasterUrl = URL_TEMPLATE.Replace(PAGE_NUM_PLACEHOLDER, (pageNumber + 1).ToString()).Replace(FREE_TEXT_PLACEHOLDER, urlEncodedFreeText);
 
                 // Download the entire HTML of the page
                 WebClient webClient = new WebClient();

@@ -9,5 +9,7 @@ namespace WorkerRole1
     interface IJobCollectable
     {
         string CollectJobs(string i_FreeText);
+
+        string CollectJobs(string i_FreeText, int pageNumber);
     }
 }
