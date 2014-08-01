@@ -3,15 +3,15 @@
   <Role name="WebRole1">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="WebStorageConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=benisraeladi;AccountKey=OB5vkr8GoJ2GJotYwdHzScDCgQ5T6I0mFlHojFwYtTEBx4dxPQocpUrPIqOrExzc9j2e57gztdUTsqzmEZW/iA==" />
+      <Setting name="WebStorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=benisraeladi;AccountKey=OB5vkr8GoJ2GJotYwdHzScDCgQ5T6I0mFlHojFwYtTEBx4dxPQocpUrPIqOrExzc9j2e57gztdUTsqzmEZW/iA==" />
     </ConfigurationSettings>
   </Role>
   <Role name="WorkerRole1">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="WorkerStorageConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=benisraeladi;AccountKey=OB5vkr8GoJ2GJotYwdHzScDCgQ5T6I0mFlHojFwYtTEBx4dxPQocpUrPIqOrExzc9j2e57gztdUTsqzmEZW/iA==" />
+      <Setting name="WorkerStorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=benisraeladi;AccountKey=OB5vkr8GoJ2GJotYwdHzScDCgQ5T6I0mFlHojFwYtTEBx4dxPQocpUrPIqOrExzc9j2e57gztdUTsqzmEZW/iA==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
