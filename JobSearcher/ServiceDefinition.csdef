@@ -16,6 +16,8 @@
     </Imports>
     <ConfigurationSettings>
       <Setting name="WebStorageConnectionString" />
+      <Setting name="Redis.Host" />
+      <Setting name="Redis.Password" />
     </ConfigurationSettings>
   </WebRole>
   <WorkerRole name="WorkerRole1" vmsize="Small">

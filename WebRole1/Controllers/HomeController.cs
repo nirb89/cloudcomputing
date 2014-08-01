@@ -15,7 +15,7 @@ namespace WebRole1.Controllers
         public ActionResult Index()
         {
             string searchString = (string) Session[search];
-            ViewBag.results = WebStorageManager.DownloadResultBlobs(searchString);
+            ViewBag.results = RedisCacheManager.GetFromCache(searchString);
 
             return View();
         }
@@ -26,7 +26,7 @@ namespace WebRole1.Controllers
             //string searchString = ISearchString.First<String>();
             Session[search] = searchString;
 
-            WebStorageManager.InsertToQueue(searchString);
+            RedisCacheManager.AddIfNotExists(searchString);
 
             return RedirectToAction("Index");
         }
