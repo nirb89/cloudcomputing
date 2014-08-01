@@ -5,6 +5,8 @@
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=benisraeladi;AccountKey=OB5vkr8GoJ2GJotYwdHzScDCgQ5T6I0mFlHojFwYtTEBx4dxPQocpUrPIqOrExzc9j2e57gztdUTsqzmEZW/iA==" />
       <Setting name="WebStorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=benisraeladi;AccountKey=OB5vkr8GoJ2GJotYwdHzScDCgQ5T6I0mFlHojFwYtTEBx4dxPQocpUrPIqOrExzc9j2e57gztdUTsqzmEZW/iA==" />
+      <Setting name="Redis.Host" value="jobsearcher.redis.cache.windows.net" />
+      <Setting name="Redis.Password" value="oMEHNxA4SUqhyFjon2XMg4Y1qhpzyiUkO4nRaq7uL64=" />
     </ConfigurationSettings>
   </Role>
   <Role name="WorkerRole1">
