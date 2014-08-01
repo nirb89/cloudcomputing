@@ -28,6 +28,8 @@ namespace WorkerRole1
             
             // Download the entire HTML of the page
             WebClient webClient = new WebClient();
+            webClient.Encoding = Encoding.GetEncoding("windows-1255");
+
             webClient.Headers[HttpRequestHeader.Accept] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
             webClient.Headers[HttpRequestHeader.AcceptLanguage] = "en-US,en;q=0.8,he;q=0.6";
             webClient.Headers[HttpRequestHeader.Host] = "www.alljobs.co.il";
