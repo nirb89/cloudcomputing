@@ -79,7 +79,7 @@ namespace WebRole1.Models
                 }
             }
 
-            return string.Empty;
+            return null;
         }
 
         public static void InsertAllJobsToQueue(string freeTextInput)

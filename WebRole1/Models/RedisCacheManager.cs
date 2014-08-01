@@ -14,7 +14,7 @@ namespace WebRole1.Models
         private static readonly string  REDIS_PASS = RoleEnvironment.GetConfigurationSettingValue("Redis.Password");
 
 
-        private static readonly int EXPIRATION_TIME = 1440;
+        private static readonly int EXPIRATION_TIME = 20;
 
         private static ConnectionMultiplexer _cacheConnection = null;
 
