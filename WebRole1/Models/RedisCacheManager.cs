@@ -58,7 +58,7 @@ namespace WebRole1.Models
 
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
-                keyNameInCache = (int)jobSite + ":" + key;
+                keyNameInCache = key + ":" + (int)jobSite;
 
                 if (!cache.KeyExists(keyNameInCache))
                 {
@@ -69,11 +69,18 @@ namespace WebRole1.Models
             disconnectIfConnected();
         }
 
-        public static List<string> GetFromCache(String key)
+        public static int GetCountFromCache(String key)
+        {
+            List<string[]> valuesFromKey = GetFromCache(key);
+            return valuesFromKey.Count;
+            
+        }
+
+        public static List<string[]> GetFromCache(String key)
         {
             if (key == null)
             {
-                return new List<string>();
+                return new List<string[]>();
             }
 
             connectIfNotConnected();
@@ -83,16 +90,17 @@ namespace WebRole1.Models
             string data = null;
             string keyNameInCache;
 
-            List<string> jobsData = new List<string>();
+            List<string[]> jobsData = new List<string[]>();
 
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
-                keyNameInCache = (int)jobSite + ":" + key;
+                int jobSiteInt = (int)jobSite;
+                keyNameInCache = key + ":" + jobSiteInt;
 
                 if (cache.KeyExists(keyNameInCache))
                 {
                     data = cache.StringGet(keyNameInCache);
-                    jobsData.Add(data);
+                    jobsData.Add(new string [] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data} );
                 }
                 else
                 {
@@ -102,7 +110,7 @@ namespace WebRole1.Models
                     if (data != null)
                     {
                         cache.StringSetAsync(keyNameInCache, data, TimeSpan.FromMinutes(EXPIRATION_TIME));
-                        jobsData.Add(data);
+                        jobsData.Add(new string[] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data});
                     }
 
                 }

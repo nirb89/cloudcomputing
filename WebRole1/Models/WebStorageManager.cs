@@ -72,9 +72,9 @@ namespace WebRole1.Models
                 {
                     CloudBlockBlob blob = item as CloudBlockBlob;
 
-                    if (blob != null && blob.Name.Equals(freeTextInput+ ":" + (int)jobSite))
+                    if (blob != null && blob.Name.Equals(freeTextInput + ":" + (int)jobSite))
                     {
-                        return blob.DownloadText();
+                        return (blob.DownloadText());
                     }
                 }
             }
@@ -97,12 +97,12 @@ namespace WebRole1.Models
 
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
-                blobName = (int)jobSite + ":" + freeTextInput;
+                blobName = freeTextInput + ":" + (int)jobSite;
 
                 if (!isTextInputInResultsTable(blobName))
                 {
                     // Create a message and add it to the queue.
-                    CloudQueueMessage message = new CloudQueueMessage((int)jobSite + ":" + freeTextInput);
+                    CloudQueueMessage message = new CloudQueueMessage(freeTextInput + ":" + (int)jobSite);
                     queue.AddMessage(message);
                 }
             }
@@ -110,7 +110,7 @@ namespace WebRole1.Models
 
         public static void InsertJobToQueue(string freeTextInput, JobSiteEnum jobSite)
         {
-            string blobName = (int)jobSite + ":" + freeTextInput;
+            string blobName = freeTextInput + ":" + (int)jobSite;
 
             if (isTextInputInResultsTable(blobName))
             {

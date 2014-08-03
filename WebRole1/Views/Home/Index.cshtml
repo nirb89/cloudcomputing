@@ -23,29 +23,32 @@
 
                     if (newResults != "")
                     {
-                        for (var i = 0; i < newResults.length; i++)
+                        // Retreive and parse JSON data from result
+                        var rowClass = "md-col-6";
+ 
+                        
+                        var toSplit = result.indexOf('#');
+                        var websiteValue = result.substring(0, toSplit);
+                        var nameAndHtml = result.substring(toSplit + 1);
+                        toSplit = nameAndHtml.indexOf('#');
+                        var websiteName = nameAndHtml.substring(0, toSplit);
+                        var html = nameAndHtml.substring(toSplit + 1);
+
+                        // Append new result into website
+                        $('#resultsList' + websiteValue).replaceWith(
+                            "<h2>" + websiteName + "</h2>" +
+                            "<div class=" + rowClass + ">" +
+                                    html +
+                                "</div>");
+                        
+                        if (spinner !== null)
                         {
-                            // Retreive and parse JSON data from result
-                            var resultData = newResults[i];
-                            var resultTableRow = new Array(resultData[0], resultData[1], resultData[2]);
-                            var rowClass = "success";
-
-                            // Append new result into bottom of the results table
-                            $('#loadingTable').replaceWith(
-                                "<tr class=" + rowClass + ">" +
-                                    "<td>" + resultTableRow[0] + "</td>" +
-                                    "<td>" + resultTableRow[1] + "</td>" +
-                                    "<td>" + resultTableRow[2] + "</td>" +
-                                "</tr>");
-
-                            if (spinner !== null)
-                            {
                                 var target = document.getElementById('spin');
                                 spinner.stop(target);
-                            }
                         }
                     }
-                });
+                    }
+                );
             }, 10000);
         });
 
@@ -75,16 +78,18 @@
                 };
             }
 
-            $('#resultsTable > tbody').append("<tr id='loadingRow' class='active'><td>Loading...</td><td>Loading...</td><td>Loading...</td></tr>");
-
+            $('#resultsListAllJobs').append("<div id='loadingAllJobs'>Loading...</div>");
+            $('#resultsListJobMaster').append("<div id='loadingJobMaster'>Loading...</div>");
+            $('#resultsListDrushim').append("<div id='loadingDrushim'>Loading...</div>");
+            $('#resultsListIndeed').append("<div id='loadingIndeed'>Loading...</div>");
             spinner = new Spinner(opts).spin();
             var target = document.getElementById('spin');
             target.appendChild(spinner.el);
         }
 
-        $("#fileForm").on("submit", function (e)
+        $("#SearchJobForm").on("submit", function (e)
         {
-            if ($("#dataFile").val() == "")
+            if ($("#searchString").val() === "")
             {
                 e.preventDefault();
                 alert("Please enter the job you would like to search for");
@@ -101,10 +106,10 @@
     <h1>JobSearcher</h1>
     <p class="lead">JobSearcher makes searching for jobs easy.  Just type in the kind of job you're looking for and we will search multiple job sites to get the most accurate information.</p>
 </div>
- @using (Html.BeginForm("SearchJob", "Home", FormMethod.Post))
+ @using (Html.BeginForm("SearchJob", "Home", FormMethod.Post, new { id = "SearchJobForm"}))
     {
 
-            <div style="font-weight: bold" id="searchJob" class="well col-xs-6">
+            <div style="font-weight: bold" id="searchJobForm" class="well col-xs-6">
                 Job Type: <input type="text" name="searchString" id="searchString" />
         <input type="submit" value="Search Job" />
         </div>
@@ -115,12 +120,15 @@
 <br />
 <br />
 <br />
-       <div class="row">
-    @foreach (string result in ViewBag.results) {
- 
-            <div class="col-md-6">
-                @Html.Raw(result);
-            </div>
+    <div class="row">
+    @foreach(string[] result in ViewBag.results) {
+    //@for (int i = 0; i < Enum.GetValues(typeof(WebRole1.Models.JobSiteEnum)).Length; i++) { <% Response.write('resultsList' + i) %>
+        
+        <div class="col-md-6" id="resultsList0">
+            <h1>@Html.Raw(result[1])</h1>
+            @Html.Raw(result[2]);
+            <div class="spinner-position" id="spin"></div>
+        </div>
     }
-            </div>
+    </div>
     
