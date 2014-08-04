@@ -50,7 +50,7 @@ namespace WorkerRole1
                 string.Empty : 
                 rateNode.InnerHtml.Replace("/images", "http://www.alljobs.co.il/images");
 
-            return jobsHtml;
+            return jobsHtml.Replace("\"/", "\"http://www.alljobs.co.il/").Replace("'/", "'http://www.alljobs.co.il/");
         }
     }
 }

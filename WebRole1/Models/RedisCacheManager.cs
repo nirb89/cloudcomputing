@@ -97,22 +97,28 @@ namespace WebRole1.Models
                 int jobSiteInt = (int)jobSite;
                 keyNameInCache = key + ":" + jobSiteInt;
 
-                if (cache.KeyExists(keyNameInCache))
+                try
                 {
-                    data = cache.StringGet(keyNameInCache);
-                    jobsData.Add(new string [] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data} );
-                }
-                else
-                {
-                    // First time seeing this data, add to cache
-                    data = WebStorageManager.DownloadSingleResultBlob(key, jobSite);
-
-                    if (data != null)
+                    if (cache.KeyExists(keyNameInCache))
                     {
-                        cache.StringSetAsync(keyNameInCache, data, TimeSpan.FromMinutes(EXPIRATION_TIME));
-                        jobsData.Add(new string[] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data});
+                        data = cache.StringGet(keyNameInCache);
+                        jobsData.Add(new string [] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data} );
                     }
+                    else
+                    {
+                        // First time seeing this data, add to cache
+                        data = WebStorageManager.DownloadSingleResultBlob(key, jobSite);
 
+                        if (data != null)
+                        {
+                            cache.StringSetAsync(keyNameInCache, data, TimeSpan.FromMinutes(EXPIRATION_TIME));
+                            jobsData.Add(new string[] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data});
+                        }
+                    }
+                }
+                catch
+                {
+                    // Do nothing, but don't throw exception
                 }
             }
 

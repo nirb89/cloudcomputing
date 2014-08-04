@@ -57,7 +57,7 @@ namespace WorkerRole1
                 }
             }
 
-            return jobsHtml;
+            return jobsHtml.Replace("\"/", "\"http://www.indeed.com/").Replace("'/", "'http://www.indeed.com/");
         }
     }
 }

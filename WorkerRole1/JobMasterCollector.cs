@@ -46,6 +46,8 @@ namespace WorkerRole1
                     string.Empty :
                     rateNode.InnerHtml.Replace("../../images", "http://www.jobmaster.co.il/images");
 
+                jobsHtml.Replace("../", "http://www.jobmaster.co.il/code/").Replace("'/", "'http://www.jobmaster.co.il/");
+
                 return jobsHtml;
             }
     }
