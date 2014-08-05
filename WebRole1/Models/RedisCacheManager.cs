@@ -58,7 +58,7 @@ namespace WebRole1.Models
 
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
-                keyNameInCache = key + ":" + (int)jobSite;
+                keyNameInCache = (int)jobSite + ":" + key;
 
                 if (!cache.KeyExists(keyNameInCache))
                 {
@@ -95,7 +95,7 @@ namespace WebRole1.Models
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
                 int jobSiteInt = (int)jobSite;
-                keyNameInCache = key + ":" + jobSiteInt;
+                keyNameInCache = jobSiteInt + ":" + key;
 
                 try
                 {
