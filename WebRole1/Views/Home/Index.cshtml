@@ -10,46 +10,37 @@
 
         $(document).ready(function ()
         {
-            if (spinner === null && '@ViewBag.expectingResult' == 'True')
+            if ('@ViewBag.expectingResult' == 'True')
             {
-                activateSpin();
-            }
-
-            setInterval(function ()
-            {
-                $.getJSON('/home/findnewresults', function (result)
+                if (spinner === null)
                 {
-                    var newResults = result.Results;
+                    activateSpin();
+                }
 
-                    if (newResults != "")
-                    {
-                        // Retreive and parse JSON data from result
-                        var rowClass = "md-col-6";
- 
+                setInterval(function () {
+                    $.getJSON('/home/findnewresults', function (result) {
+                        var newResults = result.Results;
 
-                        var toSplit = result.indexOf('#');
-                        var websiteValue = result.substring(0, toSplit);
-                        var nameAndHtml = result.substring(toSplit + 1);
-                        toSplit = nameAndHtml.indexOf('#');
-                        var websiteName = nameAndHtml.substring(0, toSplit);
-                        var html = nameAndHtml.substring(toSplit + 1);
+                        if (newResults != "") {
+                            for (var i = 0; i < newResults.length; i++) {
 
-                        // Append new result into website
-                        $('#resultsList' + websiteValue).replaceWith(
-                            "<h2>" + websiteName + "</h2>" +
-                            "<div class=" + rowClass + ">" +
-                                    html +
-                                "</div>");
-                        
-                        if (spinner !== null)
-                        {
-                                var target = document.getElementById('spin');
-                                spinner.stop(target);
+                                // Retreive and parse JSON data from result
+                                var resultData = newResults[i];
+
+                                var jobType = resultData[0];
+                                var jobHtml = resultData[1];
+
+                                alert(jobType);
+
+                                if (spinner !== null) {
+                                    var target = document.getElementById('spin');
+                                    spinner.stop(target);
+                                }
+                            }
                         }
-                    }
-                    }
-                );
-            }, 10000);
+                    });
+                }, 10000);
+            }
         });
 
         function activateSpin()

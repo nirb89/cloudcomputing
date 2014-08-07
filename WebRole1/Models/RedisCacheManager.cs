@@ -44,11 +44,13 @@ namespace WebRole1.Models
             }
         }
 
-        public static void AddIfNotExists(String key)
+        public static bool AddIfNotExists(String key)
         {
+            bool existsInCache = false;
+
             if (key == null)
             {
-                return;
+                return true;
             }
 
             connectIfNotConnected();
@@ -60,13 +62,17 @@ namespace WebRole1.Models
             {
                 keyNameInCache = (int)jobSite + ":" + key;
 
-                if (!cache.KeyExists(keyNameInCache))
+                existsInCache = cache.KeyExists(keyNameInCache);
+
+                if (!existsInCache)
                 {
                     WebStorageManager.InsertJobToQueue(key, jobSite);
                 }
             }
 
             disconnectIfConnected();
+
+            return existsInCache;
         }
 
         public static int GetCountFromCache(String key)

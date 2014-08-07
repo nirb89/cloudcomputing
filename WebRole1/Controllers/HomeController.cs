@@ -30,9 +30,10 @@ namespace WebRole1.Controllers
             //string searchString = ISearchString.First<String>();
             Session[search] = searchString;
 
-            RedisCacheManager.AddIfNotExists(searchString);
-
-            ResultsContainerListener.ExpectingNewResult = true;
+            // Load sites dynamically only if results are not already in cache
+            ResultsContainerListener.ExpectingNewResult = (searchString != null) ?
+                                                          RedisCacheManager.AddIfNotExists(searchString) :
+                                                          false;
 
             return RedirectToAction("Index");
         }
@@ -40,8 +41,13 @@ namespace WebRole1.Controllers
         public ActionResult FindNewResults()
         {
             // Fetch new results from container and parse to readable JSON
-            List<string[]> newResults = ResultsContainerListener.CheckForNewResult((string)Session[search]);
-            string resultsJson = newResults.Count() > 0 ? JsonConvert.SerializeObject(newResults) : string.Empty;
+            string resultsJson = string.Empty;
+
+            if (Session != null && search != null && Session[search] != null)
+            {
+                Dictionary<string, string> newResults = ResultsContainerListener.CheckForNewResult((string)Session[search]);
+                resultsJson = newResults.Count() > 0 ? JsonConvert.SerializeObject(newResults) : string.Empty;
+            }
 
             return Json(new { Results = resultsJson }, JsonRequestBehavior.AllowGet);
         }
