@@ -10,15 +10,13 @@ namespace WebRole1.Controllers
 {
     public class HomeController : Controller
     {
-
+        public static readonly int JOB_SITE_COUNT = Enum.GetValues(typeof(JobSiteEnum)).Length;
         public readonly string search = "SearchString";
-        public static int value = 0;
-        
 
         public ActionResult Index()
         {
-            string searchString = (string) Session[search];
-            ViewBag.results = RedisCacheManager.GetFromCache(searchString);
+            ViewBag.numOfJobs = JOB_SITE_COUNT;
+            ViewBag.results = RedisCacheManager.GetFromCache((string)Session[search]);
             ViewBag.expectingResult = ResultsContainerListener.ExpectingNewResult;
 
             return View();
@@ -32,7 +30,7 @@ namespace WebRole1.Controllers
 
             // Load sites dynamically only if results are not already in cache
             ResultsContainerListener.ExpectingNewResult = (searchString != null) ?
-                                                          RedisCacheManager.AddIfNotExists(searchString) :
+                                                          !RedisCacheManager.AddIfNotExists(searchString) :
                                                           false;
 
             return RedirectToAction("Index");
@@ -43,10 +41,10 @@ namespace WebRole1.Controllers
             // Fetch new results from container and parse to readable JSON
             string resultsJson = string.Empty;
 
-            if (Session != null && search != null && Session[search] != null)
+            if (Session[search] != null)
             {
                 Dictionary<string, string> newResults = ResultsContainerListener.CheckForNewResult((string)Session[search]);
-                resultsJson = newResults.Count() > 0 ? JsonConvert.SerializeObject(newResults) : string.Empty;
+                resultsJson = newResults.Count() >= JOB_SITE_COUNT ? "results found" : string.Empty;
             }
 
             return Json(new { Results = resultsJson }, JsonRequestBehavior.AllowGet);

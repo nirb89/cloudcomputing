@@ -62,11 +62,10 @@ namespace WebRole1.Models
             {
                 keyNameInCache = (int)jobSite + ":" + key;
 
-                existsInCache = cache.KeyExists(keyNameInCache);
-
-                if (!existsInCache)
+                if (!cache.KeyExists(keyNameInCache))
                 {
                     WebStorageManager.InsertJobToQueue(key, jobSite);
+                    existsInCache = false;
                 }
             }
 
@@ -108,7 +107,12 @@ namespace WebRole1.Models
                     if (cache.KeyExists(keyNameInCache))
                     {
                         data = cache.StringGet(keyNameInCache);
-                        jobsData.Add(new string [] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data} );
+                        jobsData.Add(new string [] 
+                                                { 
+                                                    jobSiteInt.ToString(), 
+                                                    Enum.GetName(typeof(JobSiteEnum), jobSiteInt), 
+                                                    data
+                                                });
                     }
                     else
                     {

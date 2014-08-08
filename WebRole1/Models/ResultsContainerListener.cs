@@ -36,9 +36,10 @@ namespace WebRole1.Models
                     }
 
                 }
-            }
 
-            ExpectingNewResult = false;
+                // Results were found, set flag to false
+                ExpectingNewResult = false;
+            }
 
             return newBlobItemsData;
         }
