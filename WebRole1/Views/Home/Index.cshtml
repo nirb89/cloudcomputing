@@ -1,11 +1,11 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-
+<header>
 @section scripts
 {
     <script src="../../Scripts/spin.js" type="text/javascript"></script>
-    <script>
+    <script type="text/javascript">
         var spinner = null;
 
         $(document).ready(function ()
@@ -19,12 +19,13 @@
             {
                 $.getJSON('/home/findnewresults', function (result)
                 {
+                    debugger;
                     var newResults = result.Results;
 
                     if (newResults != "")
                     {
                         // Retreive and parse JSON data from result
-                        var rowClass = "md-col-6";
+                        var rowClass = "md-col-12";
  
 
                         var toSplit = result.indexOf('#');
@@ -49,7 +50,7 @@
                     }
                     }
                 );
-            }, 10000);
+            }, 500);
         });
 
         function activateSpin()
@@ -78,10 +79,10 @@
                 };
             }
 
-            $('#resultsListAllJobs').append("<div id='loadingAllJobs'>Loading...</div>");
-            $('#resultsListJobMaster').append("<div id='loadingJobMaster'>Loading...</div>");
-            $('#resultsListDrushim').append("<div id='loadingDrushim'>Loading...</div>");
-            $('#resultsListIndeed').append("<div id='loadingIndeed'>Loading...</div>");
+            $('#resultsList0').append("<div id='loadingAllJobs'>Loading...</div>");
+            $('#resultsList1').append("<div id='loadingJobMaster'>Loading...</div>");
+            $('#resultsList2').append("<div id='loadingDrushim'>Loading...</div>");
+            $('#resultsList3').append("<div id='loadingIndeed'>Loading...</div>");
             spinner = new Spinner(opts).spin();
             var target = document.getElementById('spin');
             target.appendChild(spinner.el);
@@ -101,6 +102,7 @@
         });
     </script>
 }
+    </header>
 
 <div class="jumbotron">
     <h1>JobSearcher</h1>
@@ -124,7 +126,7 @@
     @foreach(string[] result in ViewBag.results) {
     //@for (int i = 0; i < Enum.GetValues(typeof(WebRole1.Models.JobSiteEnum)).Length; i++) { <% Response.write('resultsList' + i) %>
         
-        <div class="col-md-6" id="resultsList0">
+        <div class="col-md-12" id="resultsList0">
             <h1>@Html.Raw(result[1])</h1>
             @Html.Raw(result[2]);
             <div class="spinner-position" id="spin"></div>

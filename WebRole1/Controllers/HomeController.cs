@@ -41,7 +41,8 @@ namespace WebRole1.Controllers
         {
             // Fetch new results from container and parse to readable JSON
             List<string[]> newResults = ResultsContainerListener.CheckForNewResult((string)Session[search]);
-            string resultsJson = newResults.Count() > 0 ? JsonConvert.SerializeObject(newResults) : string.Empty;
+            string resultsJson = (newResults != null && newResults.Count() > 0) ? JsonConvert.SerializeObject(newResults) : string.Empty;
+            
 
             return Json(new { Results = resultsJson }, JsonRequestBehavior.AllowGet);
         }

@@ -40,12 +40,12 @@ namespace WebRole1.Models
 
             int updatedListCount = updatedCacheList.Count();
 
-            /*
+            
             if (updatedListCount == m_CacheCurrentListCount)
             {
                 return null;
             }
-            */
+            
 
             /*
             List<CloudBlockBlob> blobsWithAttributes = new List<CloudBlockBlob>();
