@@ -40,7 +40,7 @@ namespace WorkerRole1
             htmlDocument.LoadHtml(htmlCode);
             HtmlNode scriptsNode = htmlDocument.DocumentNode.SelectSingleNode("//head[@id='Head1']");
             HtmlNode rateNode = htmlDocument.DocumentNode.SelectSingleNode("//div[@id='MainContent_JobList_jobList']");
-            HtmlNode unwantedNode = htmlDocument.DocumentNode.SelectSingleNode("//tr[@class='pagingRow']");
+            HtmlNode unwantedNode = htmlDocument.DocumentNode.SelectSingleNode("//tr[@class='jobListPageNumberContainer']");
 
             string relevantScripts = (scriptsNode == null) ? 
                 string.Empty : 

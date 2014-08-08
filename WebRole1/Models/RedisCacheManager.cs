@@ -44,11 +44,13 @@ namespace WebRole1.Models
             }
         }
 
-        public static void AddIfNotExists(String key)
+        public static bool AddIfNotExists(String key)
         {
+            bool existsInCache = false;
+
             if (key == null)
             {
-                return;
+                return true;
             }
 
             connectIfNotConnected();
@@ -58,15 +60,18 @@ namespace WebRole1.Models
 
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
-                keyNameInCache = key + ":" + (int)jobSite;
+                keyNameInCache = (int)jobSite + ":" + key;
 
                 if (!cache.KeyExists(keyNameInCache))
                 {
                     WebStorageManager.InsertJobToQueue(key, jobSite);
+                    existsInCache = false;
                 }
             }
 
             disconnectIfConnected();
+
+            return existsInCache;
         }
 
         public static int GetCountFromCache(String key)
@@ -95,14 +100,19 @@ namespace WebRole1.Models
             foreach (JobSiteEnum jobSite in Enum.GetValues(typeof(JobSiteEnum)))
             {
                 int jobSiteInt = (int)jobSite;
-                keyNameInCache = key + ":" + jobSiteInt;
+                keyNameInCache = jobSiteInt + ":" + key;
 
                 try
                 {
                     if (cache.KeyExists(keyNameInCache))
                     {
                         data = cache.StringGet(keyNameInCache);
-                        jobsData.Add(new string [] {jobSiteInt.ToString(), Enum.GetName(typeof(JobSiteEnum), jobSiteInt), data} );
+                        jobsData.Add(new string [] 
+                                                { 
+                                                    jobSiteInt.ToString(), 
+                                                    Enum.GetName(typeof(JobSiteEnum), jobSiteInt), 
+                                                    data
+                                                });
                     }
                     else
                     {

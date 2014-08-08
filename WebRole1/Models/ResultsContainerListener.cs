@@ -10,44 +10,56 @@ namespace WebRole1.Models
     {
         public static bool ExpectingNewResult = false;
 
-        //private static CloudBlobClient m_BlobClient = WebStorageManager.StorageAccount.CreateCloudBlobClient();
-        //private static CloudBlobContainer m_BlobContainer = m_BlobClient.GetContainerReference(WebStorageManager.ResultsContainerName);
-        private static List<string[]> m_CacheCurrentList = new List<string[]>();
-        private static int m_CacheCurrentListCount = m_CacheCurrentList.Count();
+        private static CloudBlobClient m_BlobClient = WebStorageManager.StorageAccount.CreateCloudBlobClient();
+        private static CloudBlobContainer m_BlobContainer = m_BlobClient.GetContainerReference(WebStorageManager.ResultsContainerName);
+        private static IEnumerable<IListBlobItem> m_BlobCurrentList = new List<IListBlobItem>();
+        private static int m_BlobCurrentListCount = 0;
 
-        public static List<string[]> CheckForNewResult(string freeText)
+        public static Dictionary<string, string> CheckForNewResult(string freeText)
         {
-            List<string[]> newBlobItemsData = new List<string[]>();
+            Dictionary<string, string> newBlobItemsData = new Dictionary<string, string>();
 
-            List<string[]> newResults = findNewResults(freeText);
+            IEnumerable<CloudBlockBlob> newResults = findNewBlobs(freeText);
 
-            ExpectingNewResult = false;
+            if (newResults != null)
+            {
+                foreach (CloudBlockBlob blob in newResults)
+                {
+                    // Extract and parse the data file name and code file name from the result text
+                    string[] jobTypeAndSearchText = blob.Name.Split(new char[] { ':' });
+                    string jobType = jobTypeAndSearchText[0];
+                    string searchText = jobTypeAndSearchText[1];
 
-            return newResults;
+                    if (searchText.Equals(freeText))
+                    {
+                        newBlobItemsData.Add(jobType, blob.DownloadText());
+                    }
+
+                }
+
+                // Results were found, set flag to false
+                ExpectingNewResult = false;
+            }
+
+            return newBlobItemsData;
         }
 
-        private static List<string[]> findNewResults(string freeText)
+        private static IEnumerable<CloudBlockBlob> findNewBlobs(string freeText)
         {
+            IEnumerable<IListBlobItem> updatedBlobList = m_BlobContainer.ListBlobs();
 
-            List<string[]> updatedCacheList = RedisCacheManager.GetFromCache(freeText);
-
-            /*
-            if (updatedCacheList == null)
+            if (updatedBlobList == null)
             {
                 return null;
             }
-            */
 
-            int updatedListCount = updatedCacheList.Count();
+            int updatedListCount = updatedBlobList.Count();
 
-            
-            if (updatedListCount == m_CacheCurrentListCount)
+            if (updatedListCount <= m_BlobCurrentListCount)
             {
                 return null;
             }
-            
 
-            /*
             List<CloudBlockBlob> blobsWithAttributes = new List<CloudBlockBlob>();
 
             // Sort the updated list by its modified time
@@ -61,14 +73,17 @@ namespace WebRole1.Models
                 }
             }
 
-            IEnumerable<CloudBlockBlob> newResults = blobsWithAttributes.OrderByDescending(blob => blob.Properties.LastModified)
-                .Take(updatedListCount - m_CacheCurrentListCount);
-            */
-            // Set the updated list as the new curent list, as well as its updated size
-            m_CacheCurrentList = updatedCacheList;
-            m_CacheCurrentListCount = updatedListCount;
+            var results = from   blob in blobsWithAttributes
+                          where  blob.Name.Contains(freeText)
+                          select blob;
 
-            return updatedCacheList;
+            IEnumerable<CloudBlockBlob> newResults = results.ToList();
+
+            // Set the updated list as the new curent list, as well as its updated size
+            m_BlobCurrentList = updatedBlobList;
+            m_BlobCurrentListCount = updatedListCount;
+
+            return newResults;
 
         }
     }
