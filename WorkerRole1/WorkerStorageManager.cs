@@ -31,8 +31,8 @@ namespace WorkerRole1
             // Create the container if it doesn't already exist.
             blobContainer.CreateIfNotExists();
 
-            // Message is unique -> "[job site type]:[free text input]"
-            string resultBlockName = (int)jobSiteType + ":" + freeTextInput;
+            // Message is unique -> "[free text input]:[job site type]"
+            string resultBlockName = freeTextInput + ":" + (int)jobSiteType;
 
             // Upload a text blob
             CloudBlockBlob blob = blobContainer.GetBlockBlobReference(resultBlockName);
